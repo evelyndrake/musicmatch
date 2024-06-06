@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.text-plain {
+  font-size: 1.25em;
+  color: #cdd6f4;
+}
+
+.button-plain {
+  font-size: 1.25em;
+}
+
+.button-success {
+  background-color: #28a745;
+  font-size: 1.25em;
+  border-color: #28a745;
+  color: #cdd6f4;
+}
+
+.button-danger {
+  background-color: #dc3545;
+  font-size: 1.25em;
+  border-color: #dc3545;
+  color: #cdd6f4;
+}
