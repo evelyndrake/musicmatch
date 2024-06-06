@@ -1,5 +1,4 @@
 const express = require('express');
-const { YTMUSIC } = require('ytmusic');
 const app = express();
 const port = 5000;
 const cors = require('cors');
@@ -9,7 +8,6 @@ let ytmusic;
 import('node-youtube-music').then(module => {
   ytmusic = module;
 });
-
 
 const corsOptions = {
   origin: 'http://localhost:3000',

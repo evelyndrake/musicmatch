@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
-
 const testAPI = () => {
   axios.get('http://localhost:5000/api/test')
     .then(response => {
@@ -11,8 +10,6 @@ const testAPI = () => {
     })
     .catch(error => console.error(error));
 }
-
-
 
 function App() {
   
@@ -22,7 +19,6 @@ function App() {
   const handleInputChange = event => {
     setSearchText(event.target.value);
   }
-
   
   const apiCall = () => {
     axios.get(`http://localhost:5000/api/search/${searchText}`)
