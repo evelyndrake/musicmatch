@@ -12,5 +12,11 @@
   - `cd server`
   - `npm install`
   - `node index.js`
+- Hosting this yourself will require you to sign up for a [Genius API app](https://genius.com/api-clients)
+- Ensure that the server directory contains a `.env` file with the following properties:
+  - `PORT` - The port to run the server on
+  - `CLIENT_ID` - The client ID token from your Genius API app
+  - `CLIENT_SECRET` - The client Secret token from your Genius API app
+  - `ACCESS_TOKEN` - The access token from your Genius API app
 - The client runs on `localhost:3000` and the server runs on `localhost:5000`
 - Enjoy!
