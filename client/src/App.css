@@ -38,7 +38,7 @@
 }
 
 .text-plain {
-  font-size: 1.25em;
+  font-size: 1.15em;
   color: #cdd6f4;
 }
 
@@ -58,4 +58,13 @@
   font-size: 1.25em;
   border-color: #dc3545;
   color: #cdd6f4;
+}
+
+.text-list {
+  font-size: 1em;
+  color: #cdd6f4;
+}
+
+.list-link {
+  color: #61dafb;
 }

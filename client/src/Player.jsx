@@ -6,14 +6,24 @@ const Player = forwardRef((props, ref) => {
       height: '390',
       width: '640',
       playerVars: {
-        autoplay: 1,
+        autoplay: 0,
+        // controls: 0,
       },
     };
-  
-    return (
-      <YouTube videoId={props.videoId} opts={opts} onReady={event => event.target.pauseVideo()} ref={ref} />
-    );
-  });
-  
+
+  const handleStateChange = (event) => {
+    if (event.data === YouTube.PlayerState.UNSTARTED) {
+      const player = event.target;
+      const duration = player.getDuration();
+      player.pauseVideo();
+      player.seekTo(duration / 2);
+      player.playVideo();
+    }
+  };
+
+  return (
+    <YouTube videoId={props.videoId} opts={opts} onStateChange={handleStateChange} ref={ref} />
+  );
+});
 
 export default Player;
