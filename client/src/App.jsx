@@ -1,7 +1,6 @@
 // App.jsx
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import Player from './Player';
 import Card from './Card';
 import './App.css';
 import {Layout, Form, Typography, Button, Input, Collapse} from 'antd';
@@ -11,26 +10,15 @@ const {Header, Content} = Layout;
 const {Panel} = Collapse;
 function App() {
   // State variables
-  const [data, setData] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [currentTitle, setCurrentTitle] = useState('');
   const [videoId, setVideoId] = useState('2g811Eo7K8U');
   const [stage, setStage] = useState(0);
   const [previousRecommendations, setPreviousRecommendations] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
-  const playerRef = useRef(null);
-  const [isCollapseOpen, setIsCollapseOpen] = useState(false);
 
   const handleInputChange = event => { // Handle input change
     setSearchText(event.target.value);
-  }
-  const changeVideo = newVideoId => { // Change video
-    setVideoId(newVideoId);
-  }
-  
-  const handleYesClick = () => { // Handle yes click
-    setLikedSongs([...likedSongs, {title: currentTitle, id: videoId}]);
-    getNextSong();
   }
 
   const getInitialSong = () => { // Get initial song
@@ -61,20 +49,6 @@ function App() {
       setCurrentTitle(response.data[randomIndex].title);
     })
 
-  }
-
-  const getRandomSong = () => { // Get random song
-    axios.get('http://localhost:5000/api/randomsongyoutube')
-      .then(response => {
-        // console.log("Picking a random song...");
-        // console.log(response.data);
-        setPreviousRecommendations(response.data);
-        const randomIndex = Math.floor(Math.random() * response.data.length);
-        const randomVideoId = response.data[randomIndex].youtubeId;
-        setVideoId(randomVideoId);
-        setCurrentTitle(response.data[randomIndex].title);
-      })
-      .catch(error => console.error(error));
   }
 
   const getRandomSongInitial = () => { // Get random song
@@ -108,11 +82,26 @@ function App() {
     getNextSong();
   }
 
+  const copyLikedSongs = () => { // Copy liked songs
+    navigator.clipboard.writeText(likedSongs.map(song => `${song.title} - https://www.youtube.com/watch?v=${song.id}`).join('\n'));
+  }
+
+  const saveLikedSongsToFile = () => { // Save liked songs to file
+    const currentDate = new Date();
+    const dateString = currentDate.toISOString().split('T')[0];
+    const fileName = `likedSongs_${dateString}.txt`;
+    const element = document.createElement('a');
+    const file = new Blob([likedSongs.map(song => `${song.title} - https://www.youtube.com/watch?v=${song.id}`).join('\n')], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = fileName;
+    document.body.appendChild(element);
+    element.click();
+  }
+
   return (
-    // TODO: Make the UI better lol
     <Layout className='App'>
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1e1e2e' }}>
-        <Title style={{color: '#f5c2e7'}} level={3}>Music Match</Title>
+        <Title style={{color: '#f5c2e7', paddingBottom: '10px'}} level={3}>MusicMatch ♥</Title>
       </Header>
       <Content style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: 'auto', paddingTop: '20px', height:'100vh', backgroundColor:'#45475a' }}>
         {stage === 0 && (
@@ -120,14 +109,14 @@ function App() {
             <Text className="text-plain">Let's start with a song, artist, or album that you already like...</Text>
             <Form onFinish={getInitialSong} style={{paddingTop: '20px'}}>
               <Form.Item name="searchText">
-                <Input placeholder='Search' value={searchText} onChange={handleInputChange} />
+                <Input placeholder='Search' value={searchText} onChange={handleInputChange}/>
               </Form.Item>
               <Form.Item>
-                <Button className="button-plain" type="default" htmlType="submit">Search</Button>
+                <Button className="button-plain" type="default" htmlType="submit" style={{ marginTop: '-10px' }}>Search</Button>
               </Form.Item>
             </Form>
-            <Text className="text-plain">Or...</Text>
-            <Button className="button-success" type="primary" onClick={getRandomSongInitial} style={{marginTop: '10px'}}>Surprise me!</Button>
+            <Text className="text-plain" style={{ marginTop: '-10px' }}>Or...</Text>
+            <Button className="button-success" type="primary" onClick={getRandomSongInitial} style={{ marginTop: '20px', width: '10em', height: '2.2em' }}>Surprise me!</Button>
           </>
         )}
         {stage === 1 && (
@@ -141,21 +130,28 @@ function App() {
               <Button className='button-plain' type="default" onClick={() => getSongFromOldRecs()} style={{ flex: 1, marginLeft: '10px' }}>Kinda</Button>
               <Button className='button-success' type="primary" onClick={handleYesClick} style={{ flex: 1, marginLeft: '10px' }}>Yes</Button>
             </div> */}
-            <div style={{ maxHeight: '200px', width: '20%', marginTop: '10px', overflowY: 'auto' } }>
-              <Collapse>
-                <Panel header="Songs you liked" key="1" style={{backgroundColor: '#FFFFFF'}}>
-                  <ul >
-                    {likedSongs.map((song, index) => (
-                      <li className='text-list' key={index} style={{ listStyleType: 'disc' }}>
-                        <a className='list-link' href={`https://www.youtube.com/watch?v=${song.id}`} target="_blank" rel="noopener noreferrer">
-                          {song.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </Panel>
-              </Collapse>
-            </div>
+            {likedSongs.length > 0 && (
+              <div className="controls" style={{ maxHeight: '40%', width: '50%', marginTop: '10px', overflowY: 'auto' } }>
+                <Collapse style={{backgroundColor: '#343a40', borderColor: '#343a40'}}>
+                  <Panel header="Songs you liked" key="1" style={{backgroundColor: '#343a40'}}>
+                    <div className='buttonPanel' style={{marginTop: '-20px'}}>
+                      <Button className='button-copy' type="default" onClick={copyLikedSongs}>Copy</Button>
+                      <Button className='button-save' type="default" onClick={saveLikedSongsToFile}>Save</Button>
+                      <Button className='button-danger' type="default" onClick={() => setLikedSongs([])}>Clear</Button>
+                    </div>
+                    <ul >
+                      {likedSongs.map((song, index) => (
+                        <li className='text-list' key={index} style={{ listStyleType: 'disc' }}>
+                          <a className='list-link' href={`https://www.youtube.com/watch?v=${song.id}`} target="_blank" rel="noopener noreferrer">
+                            {song.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </Panel>
+                </Collapse>
+              </div>
+            )}
           </>
         )}
       </Content>

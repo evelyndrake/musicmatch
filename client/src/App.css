@@ -1,49 +1,36 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+* {
+  font-family: "Balsamiq Sans" !important;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: #63e8f1;
 }
 
 .text-plain {
-  font-size: 1.15em;
+  font-size: 2em;
   color: #cdd6f4;
 }
 
+.ant-input {
+  font-size: 1.7em;
+}
+
 .button-plain {
-  font-size: 1.25em;
+  font-size: 1.7em;
+  width: 33%;
+  height: 2.2em;
 }
 
 .button-success {
@@ -51,36 +38,77 @@
   font-size: 1.25em;
   border-color: #28a745;
   color: #cdd6f4;
+  font-size: 1.7em;
+  width: 33%;
+  height: 20%;
+}
+
+.button-save {
+  background-color: #1ba2cb;
+  font-size: 1.2em;
+  border-color: #1ba2cb;
+  color: #cdd6f4;
+  width: 26%;
+  height: 2.4em;
+}
+
+.button-copy {
+  background-color: #df771c;
+  font-size: 1.2em;
+  border-color: #df771c;
+  color: #cdd6f4;
+  width: 26%;
+  height: 2.4em;
 }
 
 .button-danger {
   background-color: #dc3545;
-  font-size: 1.25em;
+  font-size: 1.2em;
   border-color: #dc3545;
   color: #cdd6f4;
+  width: 26%;
+  height: 2.4em;
 }
 
 .text-list {
-  font-size: 1em;
-  color: #cdd6f4;
+  text-align: left;
+  font-size: 1.7em;
 }
 
 .list-link {
-  color: #070f82;
+  color: #63e8f1;
+}
+
+li::marker {
+  color: #63e8f1;
 }
 
 .card {
   background-color: #343a40;
   color: #cdd6f4;
   border-color: #6c757d;
-  width:20%;
-  height: auto;
+  width:50%;
+  /* height: 50%; */
   padding: 20px;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .card {
+    width: 75%;
+  }
+  .controls {
+    width: 75% !important;
+  }
 }
 
 .title {
   text-align: left;
   margin-top: 0;
+}
+
+h3 {
+  font-size: 34px !important;
 }
 
 * {
@@ -103,4 +131,29 @@
 
 .flyIn {
   animation: flyInFromBottom 0.5s ease-out forwards;
+}
+
+.buttonPanel {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.ant-collapse-content-box {
+  background-color: #343a40;
+  color: #343a40;
+  
+}
+
+.ant-collapse-content {
+  border-top: 1px solid #343a40 !important;
+}
+
+.ant-collapse-header-text {
+  color: #cdd6f4;
+  font-size: 1.7em;
+}
+
+.anticon-right {
+  color: #cdd6f4 !important;
 }

@@ -57,7 +57,7 @@ const Card = ({title, videoId, swipeLeft, swipeRight}) => {
                 transform: `translateX(${swipeAmount}px) translateY(${swipeAmountY}px) rotate(${swipeAmount / 50}deg)`,
                 opacity: Math.max(1 - Math.abs(swipeAmount / (swipeThreshold*4)), 0),
                 borderColor: swipeAmount > 0 ? 'green' : 'red',
-                borderStyle: (swipeAmount != 0 && Math.abs(swipeAmount) > swipeThreshold) ? 'solid' : 'none',
+                borderStyle: (swipeAmount !== 0 && Math.abs(swipeAmount) > swipeThreshold) ? 'solid' : 'none',
                 transition: isDragging ? 'none' : 'transform 0.2s ease-out' // Smooth transition only when not dragging
             }}
             {...handlers} className={`card ${animateCard ? 'flyIn' : ''}`}>

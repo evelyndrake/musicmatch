@@ -3,7 +3,6 @@ import YouTube from "react-youtube";
 
 const Player = forwardRef((props, ref) => {
     const opts = {
-      height: '500px',
       width: '100%',
       playerVars: {
         autoplay: 1,
