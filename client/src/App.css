@@ -66,5 +66,41 @@
 }
 
 .list-link {
-  color: #61dafb;
+  color: #070f82;
+}
+
+.card {
+  background-color: #343a40;
+  color: #cdd6f4;
+  border-color: #6c757d;
+  width:20%;
+  height: auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: left;
+  margin-top: 0;
+}
+
+* {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+@keyframes flyInFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.flyIn {
+  animation: flyInFromBottom 0.5s ease-out forwards;
 }

@@ -2,11 +2,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Player from './Player';
+import Card from './Card';
 import './App.css';
-import {Layout, Form, Typography, Button, Input} from 'antd';
+import {Layout, Form, Typography, Button, Input, Collapse} from 'antd';
+
 const {Title, Text} = Typography;
 const {Header, Content} = Layout;
-
+const {Panel} = Collapse;
 function App() {
   // State variables
   const [data, setData] = useState(null);
@@ -17,6 +19,7 @@ function App() {
   const [previousRecommendations, setPreviousRecommendations] = useState([]);
   const [likedSongs, setLikedSongs] = useState([]);
   const playerRef = useRef(null);
+  const [isCollapseOpen, setIsCollapseOpen] = useState(false);
 
   const handleInputChange = event => { // Handle input change
     setSearchText(event.target.value);
@@ -46,18 +49,18 @@ function App() {
   }
 
   const getNextSong = async () => { // Get next song
-    if (playerRef.current) {
-      axios.get(`http://localhost:5000/api/recsfromid/${videoId}`)
-        .then(response => {
-          // console.log("Picking another song from next song recommendations:");
-          // console.log(response.data)
-          setPreviousRecommendations(response.data);
-          const randomIndex = Math.floor(Math.random() * response.data.length);
-          const randomVideoId = response.data[randomIndex].youtubeId;
-          setVideoId(randomVideoId);
-          setCurrentTitle(response.data[randomIndex].title);
-        })
-    }
+
+  axios.get(`http://localhost:5000/api/recsfromid/${videoId}`)
+    .then(response => {
+      // console.log("Picking another song from next song recommendations:");
+      // console.log(response.data)
+      setPreviousRecommendations(response.data);
+      const randomIndex = Math.floor(Math.random() * response.data.length);
+      const randomVideoId = response.data[randomIndex].youtubeId;
+      setVideoId(randomVideoId);
+      setCurrentTitle(response.data[randomIndex].title);
+    })
+
   }
 
   const getRandomSong = () => { // Get random song
@@ -96,6 +99,15 @@ function App() {
     setCurrentTitle(previousRecommendations[index].title);
   }
 
+  const swipeLeft = () => { // Swipe left
+    getSongFromOldRecs();
+  }
+
+  const swipeRight = () => { // Swipe right
+    setLikedSongs([...likedSongs, {title: currentTitle, id: videoId}]);
+    getNextSong();
+  }
+
   return (
     // TODO: Make the UI better lol
     <Layout className='App'>
@@ -120,25 +132,29 @@ function App() {
         )}
         {stage === 1 && (
           <>
-            <Text style={{paddingBottom:'20px'}} className='text-plain'>You are listening to: {currentTitle}</Text>
+            <Card title={currentTitle} videoId={videoId} swipeLeft={swipeLeft} swipeRight={swipeRight} />
+            {/* <Text style={{paddingBottom:'20px'}} className='text-plain'>You are listening to: {currentTitle}</Text>
             <Player videoId={videoId} ref={playerRef} />
             <Text style={{paddingBottom:'10px'}} className='text-plain'>Did you like this song?</Text>
             <div style={{ paddingTop: '0px', display: 'flex', justifyContent: 'space-between', width: '200px' }}>
               <Button className='button-danger' type="default" onClick={() => getRandomSong()} style={{ flex: 1}}>No</Button>
               <Button className='button-plain' type="default" onClick={() => getSongFromOldRecs()} style={{ flex: 1, marginLeft: '10px' }}>Kinda</Button>
               <Button className='button-success' type="primary" onClick={handleYesClick} style={{ flex: 1, marginLeft: '10px' }}>Yes</Button>
-            </div>
-            <div style={{ maxHeight: '200px', width:'50%', marginTop: '10px', overflowY: 'auto' }}>
-              <Text className='text-plain'>Songs you liked:</Text>
-              <ul>
-                {likedSongs.map((song, index) => (
-                  <li className='text-list' key={index} style={{ listStyleType: 'disc' }}>
-                    <a className='list-link' href={`https://www.youtube.com/watch?v=${song.id}`} target="_blank" rel="noopener noreferrer">
-                      {song.title}
-                    </a>
-                  </li>
-                ))}
-            </ul>
+            </div> */}
+            <div style={{ maxHeight: '200px', width: '20%', marginTop: '10px', overflowY: 'auto' } }>
+              <Collapse>
+                <Panel header="Songs you liked" key="1" style={{backgroundColor: '#FFFFFF'}}>
+                  <ul >
+                    {likedSongs.map((song, index) => (
+                      <li className='text-list' key={index} style={{ listStyleType: 'disc' }}>
+                        <a className='list-link' href={`https://www.youtube.com/watch?v=${song.id}`} target="_blank" rel="noopener noreferrer">
+                          {song.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </Panel>
+              </Collapse>
             </div>
           </>
         )}

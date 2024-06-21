@@ -1,4 +1,5 @@
 # MusicMatch
+![Demo](docs/demo.gif)
 - This will eventually be a web app to help users discover new music
 - It will function similarly to a dating app, where users are given a queue of random songs
 - They will swipe either left or right, and right swipes will add the song to a playlist

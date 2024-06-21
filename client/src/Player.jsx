@@ -3,16 +3,16 @@ import YouTube from "react-youtube";
 
 const Player = forwardRef((props, ref) => {
     const opts = {
-      height: '390',
-      width: '640',
+      height: '500px',
+      width: '100%',
       playerVars: {
-        autoplay: 0,
-        // controls: 0,
+        autoplay: 1,
+        controls: 0,
       },
     };
 
   const handleStateChange = (event) => {
-    if (event.data === YouTube.PlayerState.UNSTARTED) {
+    if (event.data !== YouTube.PlayerState.PLAYING) {
       const player = event.target;
       const duration = player.getDuration();
       player.pauseVideo();
@@ -21,8 +21,26 @@ const Player = forwardRef((props, ref) => {
     }
   };
 
+  const handleReady = (event) => {
+    const player = event.target;
+    const duration = player.getDuration();
+    player.pauseVideo();
+    player.seekTo(duration / 2);
+    player.playVideo();
+}
+
   return (
-    <YouTube videoId={props.videoId} opts={opts} onStateChange={handleStateChange} ref={ref} />
+    <div style={{ position: 'relative', pointerEvents: 'none' }}>
+      <YouTube videoId={props.videoId} opts={opts} onReady={handleReady} onStateChange={handleStateChange} ref={ref} />
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        pointerEvents: 'none', // This disables all click events on the overlay
+      }}></div>
+    </div>
   );
 });
 
