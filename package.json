@@ -1,0 +1,25 @@
+{
+  "name": "musicmatch",
+  "version": "1.0.0",
+  "description": "![Demo](docs/demo.gif)\r - This will eventually be a web app to help users discover new music\r - It will function similarly to a dating app, where users are given a queue of random songs\r - They will swipe either left or right, and right swipes will add the song to a playlist\r ## Setup\r - Open two terminal windows for both the client and server\r - client\r   - `cd client`\r   - `npm install`\r   - `npm start`\r - server\r   - `cd server`\r   - `npm install`\r   - `node index.js`\r - Hosting this yourself will require you to sign up for a [Genius API app](https://genius.com/api-clients)\r - Ensure that the server directory contains a `.env` file with the following properties:\r   - `PORT` - The port to run the server on\r   - `CLIENT_ID` - The client ID token from your Genius API app\r   - `CLIENT_SECRET` - The client secret token from your Genius API app\r   - `ACCESS_TOKEN` - The access token from your Genius API app\r - The client runs on `localhost:3000` and the server runs on `localhost:5000`\r - Enjoy!",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "server": "node server/index.js",
+    "client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "node-youtube-music": "^0.10.3"
+  }
+}

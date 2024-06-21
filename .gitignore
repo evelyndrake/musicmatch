@@ -33,3 +33,4 @@ server/yarn-debug.log*
 client/yarn-error.log*
 server/yarn-error.log*
 .env
+node_modules

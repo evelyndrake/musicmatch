@@ -50,7 +50,7 @@ app.get('/api/randomsong', async (req, res) => { // Get random song title from G
   const randomSong = getRandomInt(1, maxSong);
   axios.get(APISong + randomSong + accessToken)
   .then(response => {
-    console.log(response.data.response.song.full_title);
+    // console.log(response.data.response.song.full_title);
     const song = response.data.response.song;
     res.json(song);
   })
@@ -65,7 +65,7 @@ app.get('/api/randomsongyoutube', async (req, res) => { // Get random song from 
     try {
       const response = await axios.get(APISong + randomSong + accessToken);
       const title = response.data.response.song.full_title;
-      console.log(title);
+      // console.log(title);
       const song = await ytmusic.searchMusics(title);
       const result = await ytmusic.getSuggestions(song[0].youtubeId);
       res.json(result);
