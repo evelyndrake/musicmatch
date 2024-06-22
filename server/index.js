@@ -17,7 +17,7 @@ const corsOptions = {
 const clientSecret = process.env.CLIENT_SECRET;
 const clientId = process.env.CLIENT_ID;
 const accessToken = "?access_token=" + process.env.ACCESS_TOKEN;
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.SERVER_PORT || 5000;
 var APISong = "https://api.genius.com/songs/";
 var maxSong = 5000000;
 
