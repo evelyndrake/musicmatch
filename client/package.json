@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "client": "cross-env PORT=3000 && react-scripts start",
-    "dev": "npm run client"
+    "dev": "cross-env PORT=3000 && react-scripts start"
   },
   "eslintConfig": {
     "extends": [

@@ -9,7 +9,8 @@
   "scripts": {
     "server": "node server/index.js",
     "client": "cd client && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "concurrently \"cd client && npm run dev\" \"cd server && node --max-old-space-size=4096 index.js\""
   },
   "keywords": [],
   "author": "",
