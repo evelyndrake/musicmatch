@@ -4,7 +4,8 @@ import axios from 'axios';
 import Card from './Card';
 import './App.css';
 import {Layout, Form, Typography, Button, Input, Collapse} from 'antd';
-
+import { API_BASE_URL } from './config';
+axios.get(`${API_BASE_URL}/api/recsfromsearch/${searchText}`)
 const {Title, Text} = Typography;
 const {Header, Content} = Layout;
 const {Panel} = Collapse;
@@ -22,7 +23,7 @@ function App() {
   }
 
   const getInitialSong = () => { // Get initial song
-    axios.get(`http://localhost:5000/api/recsfromsearch/${searchText}`) // Get recommendations from search
+    axios.get(`${API_BASE_URL}/api/recsfromsearch/${searchText}`) // Get recommendations from search
       .then(response => {
         // console.log("Picking a song from initial recommendations:");
         // console.log(response.data);
@@ -38,7 +39,7 @@ function App() {
 
   const getNextSong = async () => { // Get next song
 
-  axios.get(`http://localhost:5000/api/recsfromid/${videoId}`)
+  axios.get(`${API_BASE_URL}/api/recsfromid/${videoId}`)
     .then(response => {
       // console.log("Picking another song from next song recommendations:");
       // console.log(response.data)
@@ -52,7 +53,7 @@ function App() {
   }
 
   const getRandomSongInitial = () => { // Get random song
-    axios.get('http://localhost:5000/api/randomsongyoutube')
+    axios.get('${API_BASE_URL}/api/randomsongyoutube')
       .then(response => {
         // console.log("Picking a random song...");
         // console.log(response.data);
