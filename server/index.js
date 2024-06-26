@@ -25,7 +25,8 @@ function getRandomInt(min, max) { // Get random integer
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 
 app.get('/api/search/:query', async (req, res) => { // Search
   const query = req.params.query;

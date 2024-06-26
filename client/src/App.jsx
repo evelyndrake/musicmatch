@@ -4,8 +4,8 @@ import axios from 'axios';
 import Card from './Card';
 import './App.css';
 import {Layout, Form, Typography, Button, Input, Collapse} from 'antd';
-import { API_BASE_URL } from './config';
-axios.get(`${API_BASE_URL}/api/recsfromsearch/${searchText}`)
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const {Title, Text} = Typography;
 const {Header, Content} = Layout;
 const {Panel} = Collapse;
@@ -20,10 +20,10 @@ function App() {
 
   const handleInputChange = event => { // Handle input change
     setSearchText(event.target.value);
-  }
+  } 
 
   const getInitialSong = () => { // Get initial song
-    axios.get(`${API_BASE_URL}/api/recsfromsearch/${searchText}`) // Get recommendations from search
+    axios.get(`http://localhost:5000/api/recsfromsearch/${searchText}`) // Get recommendations from search
       .then(response => {
         // console.log("Picking a song from initial recommendations:");
         // console.log(response.data);
@@ -39,7 +39,7 @@ function App() {
 
   const getNextSong = async () => { // Get next song
 
-  axios.get(`${API_BASE_URL}/api/recsfromid/${videoId}`)
+  axios.get(`http://localhost:5000/api/recsfromid/${videoId}`)
     .then(response => {
       // console.log("Picking another song from next song recommendations:");
       // console.log(response.data)
@@ -53,7 +53,7 @@ function App() {
   }
 
   const getRandomSongInitial = () => { // Get random song
-    axios.get('${API_BASE_URL}/api/randomsongyoutube')
+    axios.get('http://localhost:5000/api/randomsongyoutube')
       .then(response => {
         // console.log("Picking a random song...");
         // console.log(response.data);
@@ -85,6 +85,7 @@ function App() {
 
   const copyLikedSongs = () => { // Copy liked songs
     navigator.clipboard.writeText(likedSongs.map(song => `${song.title} - https://www.youtube.com/watch?v=${song.id}`).join('\n'));
+    toast.success('Liked songs copied to clipboard!', {position: 'top-center', autoClose: 1000});
   }
 
   const saveLikedSongsToFile = () => { // Save liked songs to file
@@ -97,6 +98,7 @@ function App() {
     element.download = fileName;
     document.body.appendChild(element);
     element.click();
+    toast.success('Liked songs downloaded!', {position: 'top-center', autoClose: 1000});
   }
 
   return (
@@ -138,7 +140,7 @@ function App() {
                     <div className='buttonPanel' style={{marginTop: '-20px'}}>
                       <Button className='button-copy' type="default" onClick={copyLikedSongs}>Copy</Button>
                       <Button className='button-save' type="default" onClick={saveLikedSongsToFile}>Save</Button>
-                      <Button className='button-danger' type="default" onClick={() => setLikedSongs([])}>Clear</Button>
+                      <Button className='button-danger' type="default" onClick={() => {setLikedSongs([]); toast.success('Song list cleared!', {position: 'top-center', autoClose: 1000});}}>Clear</Button>
                     </div>
                     <ul >
                       {likedSongs.map((song, index) => (
@@ -153,10 +155,12 @@ function App() {
                 </Collapse>
               </div>
             )}
+            <ToastContainer />
           </>
         )}
       </Content>
     </Layout>
+    
   );
 }
 
